@@ -67,21 +67,31 @@ function syncHud() {
     btnStart.disabled = false;
   }
 
-  btnMute.textContent = audio.enabled ? "音效" : "靜音";
+  btnMute.textContent = audio.enabled ? "聲音" : "靜音";
   btnMute.setAttribute("aria-pressed", audio.enabled ? "true" : "false");
+}
+
+function bgmTempo() {
+  return Math.min(148, 108 + (game.level - 1) * 6);
 }
 
 /** @param {string[]} events */
 function handleEvents(events) {
   for (const e of events) {
-    if (e === "start") audio.start();
-    else if (e === "hop") audio.hop();
+    if (e === "start") {
+      audio.start();
+      audio.startBgm(bgmTempo());
+    } else if (e === "hop") audio.hop();
     else if (e === "home") audio.home();
     else if (e === "splash") audio.splash();
     else if (e === "crunch") audio.crunch();
-    else if (e === "level") audio.level();
-    else if (e === "lose") audio.lose();
-    else if (e === "hurt") audio.crunch();
+    else if (e === "level") {
+      audio.level();
+      // Keep groove; nudge tempo for the next round when they press 下一關
+    } else if (e === "lose") {
+      audio.lose();
+      audio.stopBgm();
+    } else if (e === "hurt") audio.crunch();
   }
 }
 
@@ -109,7 +119,9 @@ btnStart.addEventListener("click", () => {
 
 btnMute.addEventListener("click", async () => {
   await audio.unlock();
-  audio.setEnabled(!audio.enabled);
+  const on = !audio.enabled;
+  audio.setEnabled(on);
+  if (on && game.status === "playing") audio.startBgm(bgmTempo());
   syncHud();
 });
 
