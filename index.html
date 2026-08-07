@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="color-scheme" content="light dark" />
+    <meta
+      name="description"
+      content="青蛙過街：過馬路、踩木筏過河、進巢穴。純前端 Playgrounds SAM，適配手機。"
+    />
+    <title>青蛙過街</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main>
+      <header class="hero">
+        <h1>青蛙過街</h1>
+        <p class="tagline">過馬路 · 踩木筏 · 進巢穴</p>
+      </header>
+
+      <section class="meter" aria-label="對局狀態">
+        <div class="meter-item">
+          <span class="label">分數</span>
+          <strong id="score">0</strong>
+        </div>
+        <div class="meter-item">
+          <span class="label">生命</span>
+          <strong id="lives" aria-label="剩餘生命">♥♥♥</strong>
+        </div>
+        <div class="meter-item">
+          <span class="label">關卡</span>
+          <strong id="level">1</strong>
+        </div>
+        <div class="meter-item">
+          <span class="label">最佳</span>
+          <strong id="best">—</strong>
+        </div>
+        <div class="meter-actions">
+          <button type="button" id="btn-mute" class="secondary" aria-pressed="true">
+            音效
+          </button>
+        </div>
+      </section>
+
+      <p id="status" class="status" role="status">按「出發」過馬路、再過河，進巢穴</p>
+
+      <div class="stage">
+        <canvas
+          id="game"
+          width="468"
+          height="468"
+          role="img"
+          aria-label="青蛙過街遊戲區"
+        ></canvas>
+      </div>
+
+      <div class="controls">
+        <button type="button" id="btn-start">出發</button>
+      </div>
+
+      <div id="pad" class="pad" aria-label="方向鍵">
+        <span></span>
+        <button type="button" class="pad-btn" data-dir="0,-1" aria-label="上">↑</button>
+        <span></span>
+        <button type="button" class="pad-btn" data-dir="-1,0" aria-label="左">←</button>
+        <button type="button" class="pad-btn" data-dir="0,1" aria-label="下">↓</button>
+        <button type="button" class="pad-btn" data-dir="1,0" aria-label="右">→</button>
+      </div>
+
+      <details class="rules">
+        <summary>怎麼玩</summary>
+        <ul>
+          <li>方向鍵／WASD／畫面滑動／下方按鍵一格一跳。</li>
+          <li>馬路躲車；河面必須踩在木筏上，並跟著漂流。</li>
+          <li>頂部四個空巢各進一次；全滿過關，車速會加快。</li>
+          <li>3 命；底部有剩餘時間條。致敬過街街機類型，非任一商業作品復刻。</li>
+        </ul>
+      </details>
+    </main>
+
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>

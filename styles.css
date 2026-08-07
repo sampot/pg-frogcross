@@ -1,0 +1,250 @@
+:root {
+  color-scheme: light dark;
+  --bg: #ecfdf5;
+  --panel: #ffffff;
+  --text: #052e16;
+  --muted: #3f6212;
+  --line: #bbf7d0;
+  --accent: #15803d;
+  --accent-dim: #166534;
+  --on-accent: #ffffff;
+  --accent-soft: color-mix(in oklab, var(--accent) 14%, var(--panel));
+  --safe: #16a34a;
+  --safe-soft: color-mix(in oklab, var(--safe) 18%, var(--panel));
+  --danger: #dc2626;
+  --danger-soft: color-mix(in oklab, var(--danger) 16%, var(--panel));
+  --tap: 2.75rem;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #052e16;
+    --panel: #0f1f14;
+    --text: #dcfce7;
+    --muted: #86efac;
+    --line: #14532d;
+    --accent: #4ade80;
+    --accent-dim: #22c55e;
+    --on-accent: #052e16;
+    --accent-soft: color-mix(in oklab, var(--accent) 16%, var(--panel));
+    --safe: #4ade80;
+    --safe-soft: color-mix(in oklab, var(--safe) 14%, var(--panel));
+    --danger: #f87171;
+    --danger-soft: color-mix(in oklab, var(--danger) 14%, var(--panel));
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100dvh;
+  font-family:
+    "Avenir Next",
+    "Segoe UI",
+    "PingFang TC",
+    "Noto Sans TC",
+    sans-serif;
+  background:
+    radial-gradient(
+      900px 480px at 70% -10%,
+      color-mix(in oklab, var(--accent) 18%, transparent),
+      transparent 55%
+    ),
+    radial-gradient(
+      700px 400px at 10% 100%,
+      color-mix(in oklab, #0ea5e9 14%, transparent),
+      transparent 50%
+    ),
+    var(--bg);
+  color: var(--text);
+}
+
+main {
+  width: min(100%, 32rem);
+  margin: 0 auto;
+  padding: 1.1rem 1rem max(1rem, env(safe-area-inset-bottom));
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.hero h1 {
+  margin: 0;
+  font-family:
+    "Iowan Old Style",
+    Palatino,
+    "Songti TC",
+    serif;
+  font-size: clamp(1.65rem, 4.5vw, 2.15rem);
+  letter-spacing: 0.06em;
+  text-align: center;
+}
+
+.tagline {
+  margin: 0.3rem 0 0;
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+.meter {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.55rem 1rem;
+  padding: 0.7rem 0.85rem;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 0.75rem;
+}
+
+.meter-item .label {
+  display: block;
+  font-size: 0.72rem;
+  color: var(--muted);
+}
+
+.meter-item strong {
+  font-size: 1.15rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.meter-actions {
+  margin-left: auto;
+}
+
+.status {
+  margin: 0;
+  text-align: center;
+  font-weight: 700;
+  padding: 0.7rem 0.9rem;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 0.75rem;
+  min-height: 2.75rem;
+  line-height: 1.35;
+}
+
+.status[data-tone="win"] {
+  background: var(--safe-soft);
+  border-color: color-mix(in oklab, var(--safe) 35%, var(--line));
+}
+
+.status[data-tone="lose"] {
+  background: var(--danger-soft);
+  border-color: color-mix(in oklab, var(--danger) 35%, var(--line));
+}
+
+.stage {
+  display: flex;
+  justify-content: center;
+}
+
+#game {
+  display: block;
+  width: min(100%, 468px);
+  height: auto;
+  aspect-ratio: 1;
+  border-radius: 0.75rem;
+  box-shadow:
+    0 0 0 3px color-mix(in oklab, var(--accent) 35%, #000),
+    0 14px 36px rgba(0, 0, 0, 0.22);
+  touch-action: none;
+  user-select: none;
+  background: #0f172a;
+}
+
+.controls {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.controls button {
+  flex: 1;
+}
+
+button {
+  font: inherit;
+  border: 1px solid transparent;
+  background: var(--accent);
+  color: var(--on-accent);
+  border-radius: 0.55rem;
+  padding: 0.62rem 0.95rem;
+  min-height: var(--tap);
+  font-weight: 650;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+button.secondary {
+  background: var(--accent-soft);
+  color: var(--text);
+  border-color: var(--line);
+}
+
+button:hover:not(:disabled) {
+  filter: brightness(1.05);
+}
+
+button:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+button:disabled {
+  opacity: 0.48;
+  cursor: not-allowed;
+}
+
+.pad {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.4rem;
+  max-width: 16rem;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.pad-btn {
+  font-size: 1.25rem;
+  min-height: 3rem;
+  background: var(--accent-soft);
+  color: var(--text);
+  border-color: var(--line);
+}
+
+.rules {
+  padding: 0.5rem 0.7rem;
+  border-radius: 0.75rem;
+  border: 1px solid var(--line);
+  background: color-mix(in oklab, var(--panel) 90%, transparent);
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.rules summary {
+  min-height: var(--tap);
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  color: var(--text);
+  font-weight: 700;
+}
+
+.rules ul {
+  margin: 0.35rem 0 0.5rem;
+  padding-left: 1.15rem;
+  line-height: 1.45;
+}
+
+@media (min-width: 40rem) {
+  main {
+    gap: 0.85rem;
+  }
+
+  .meter {
+    flex-wrap: nowrap;
+  }
+}
