@@ -137,6 +137,11 @@ export class FrogcrossGame {
     this.frog.px = nx * CELL + CELL / 2;
     this.frog.py = ny * CELL + CELL / 2;
     this.frog.facing = { x: dir.x, y: dir.y };
+    // Prefer landing on a raft that covers this cell (fairer hops).
+    if (lane.kind === "water") {
+      const raft = this._raftNear(this.frog.px, ny);
+      if (raft) this.frog.px = raft.x;
+    }
     this.hopCool = 0.14;
     /** @type {string[]} */
     const events = ["hop"];
@@ -259,12 +264,28 @@ export class FrogcrossGame {
 
   /** @returns {Hazard | null} */
   _raftUnder() {
-    const fx = this.frog.px;
+    return this._raftNear(this.frog.px, this.frog.row);
+  }
+
+  /**
+   * @param {number} fx
+   * @param {number} row
+   * @returns {Hazard | null}
+   */
+  _raftNear(fx, row) {
+    /** @type {Hazard | null} */
+    let best = null;
+    let bestDist = Infinity;
     for (const h of this.hazards) {
-      if (h.kind !== "raft" || h.row !== this.frog.row) continue;
-      if (Math.abs(h.x - fx) < h.w / 2 - CELL * 0.12) return h;
+      if (h.kind !== "raft" || h.row !== row) continue;
+      const half = h.w / 2 - CELL * 0.08;
+      const dist = Math.abs(h.x - fx);
+      if (dist < half && dist < bestDist) {
+        best = h;
+        bestDist = dist;
+      }
     }
-    return null;
+    return best;
   }
 
   /**
