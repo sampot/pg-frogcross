@@ -246,6 +246,8 @@ document.body.addEventListener(
   { once: true },
 );
 
+// KV 為權威；本地快取過舊時以遠端為準
+void game.mergeBestFromKv().then(() => syncHud());
 syncHud();
 drawGame(ctx, game, 0);
 requestAnimationFrame((ts) => {

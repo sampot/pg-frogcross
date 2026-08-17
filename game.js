@@ -362,6 +362,24 @@ export class FrogcrossGame {
       } catch {
         /* */
       }
+      // KV 為權威；LS 僅快取
+      void fetch(`/api/kv/${BEST_KEY}`, { method: "PUT", body: JSON.stringify(this.best) }).catch(
+        () => {}
+      );
+    }
+  }
+
+  /** KV 為權威；本地快取過舊時以遠端為準 */
+  async mergeBestFromKv() {
+    try {
+      const res = await fetch(`/api/kv/${BEST_KEY}`);
+      if (!res.ok) return;
+      const raw = JSON.parse((await res.text()) || "null");
+      if (raw && typeof raw.score === "number" && raw.score > this.best.score) {
+        this.best = { score: raw.score, level: raw.level || 1 };
+      }
+    } catch {
+      /* 無 KV 環境照玩 */
     }
   }
 
